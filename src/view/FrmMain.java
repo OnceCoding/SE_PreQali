@@ -564,7 +564,7 @@ public class FrmMain extends javax.swing.JFrame {
         panelMenu.setBackground(new java.awt.Color(90, 170, 250));
         panelMenu.setPreferredSize(new java.awt.Dimension(1000, 38));
 
-        btnSave1.setBackground(new java.awt.Color(90, 170, 250));
+        btnSave1.setBackground(new java.awt.Color(100, 180, 255));
         btnSave1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave1.setForeground(java.awt.Color.white);
         btnSave1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/left-arrow-24-white.png"))); // NOI18N
@@ -573,13 +573,8 @@ public class FrmMain extends javax.swing.JFrame {
         btnSave1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSave1.setFocusPainted(false);
         btnSave1.setPreferredSize(new java.awt.Dimension(64, 35));
-        btnSave1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSave1ActionPerformed(evt);
-            }
-        });
 
-        btnSave2.setBackground(new java.awt.Color(90, 170, 250));
+        btnSave2.setBackground(new java.awt.Color(100, 180, 255));
         btnSave2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave2.setForeground(java.awt.Color.white);
         btnSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/right-arrow-24-white.png"))); // NOI18N
@@ -588,11 +583,6 @@ public class FrmMain extends javax.swing.JFrame {
         btnSave2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSave2.setFocusPainted(false);
         btnSave2.setPreferredSize(new java.awt.Dimension(64, 35));
-        btnSave2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSave2ActionPerformed(evt);
-            }
-        });
 
         btnSave3.setBackground(new java.awt.Color(90, 170, 250));
         btnSave3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -603,11 +593,6 @@ public class FrmMain extends javax.swing.JFrame {
         btnSave3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSave3.setFocusPainted(false);
         btnSave3.setPreferredSize(new java.awt.Dimension(64, 35));
-        btnSave3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSave3ActionPerformed(evt);
-            }
-        });
 
         btnSave4.setBackground(new java.awt.Color(90, 170, 250));
         btnSave4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -618,11 +603,6 @@ public class FrmMain extends javax.swing.JFrame {
         btnSave4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSave4.setFocusPainted(false);
         btnSave4.setPreferredSize(new java.awt.Dimension(64, 35));
-        btnSave4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSave4ActionPerformed(evt);
-            }
-        });
 
         lblTitle.setBackground(new java.awt.Color(90, 170, 250));
         lblTitle.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
@@ -635,15 +615,15 @@ public class FrmMain extends javax.swing.JFrame {
         panelMenuLayout.setHorizontalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMenuLayout.createSequentialGroup()
-                .addComponent(btnSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addComponent(btnSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 479, Short.MAX_VALUE)
-                .addComponent(btnSave4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 519, Short.MAX_VALUE)
+                .addComponent(btnSave4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnSave3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSave2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnSave3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btnSave2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -735,22 +715,6 @@ public class FrmMain extends javax.swing.JFrame {
     private void jTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField19ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField19ActionPerformed
-
-    private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSave1ActionPerformed
-
-    private void btnSave2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSave2ActionPerformed
-
-    private void btnSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSave3ActionPerformed
-
-    private void btnSave4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSave4ActionPerformed
 
     public static void main(String args[]) {
        

@@ -1,6 +1,13 @@
 
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+
 public class FrmLogin extends javax.swing.JFrame {
 
     private int x, y;
@@ -233,4 +240,5 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
 }
