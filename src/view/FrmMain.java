@@ -1,13 +1,30 @@
 
 package view;
 
+
+import DAO.*;
+import DaoMysql.*;
+import Model.DatosNutricional;
+import Model.Diagnostico;
+import Model.Paciente;
+import Model.RutaAlimenticia;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.tools.Diagnostic;
+import se_preqali.MalnutritionFuzzy;
+
 public class FrmMain extends javax.swing.JFrame {
 
     private int x, y;
+    MalnutritionFuzzy fuzzy;
+    DaoManager daoManager;
     
     public FrmMain() {
         initComponents();
         setLocationRelativeTo(this);
+        daoManager=  DaoManagerMysql.getDaoManager();
     }
 
     @SuppressWarnings("unchecked")
@@ -195,6 +212,7 @@ public class FrmMain extends javax.swing.JFrame {
         bgGenero.add(rbFemenino);
         rbFemenino.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rbFemenino.setForeground(new java.awt.Color(102, 102, 102));
+        rbFemenino.setSelected(true);
         rbFemenino.setText("Femenino");
         rbFemenino.setFocusPainted(false);
 
@@ -694,6 +712,11 @@ public class FrmMain extends javax.swing.JFrame {
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.setFocusPainted(false);
         btnGuardar.setPreferredSize(null);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCargar.setBackground(new java.awt.Color(90, 170, 250));
         btnCargar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -704,6 +727,11 @@ public class FrmMain extends javax.swing.JFrame {
         btnCargar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCargar.setFocusPainted(false);
         btnCargar.setPreferredSize(null);
+        btnCargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCargarMouseClicked(evt);
+            }
+        });
 
         lblTitle.setBackground(new java.awt.Color(90, 170, 250));
         lblTitle.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
@@ -762,6 +790,70 @@ public class FrmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTallaActionPerformed
 
+    private void btnCargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarMouseClicked
+        if(!verificarDatos())JOptionPane.showMessageDialog(this, "No se ingresaron todos los datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        int edad=Integer.parseInt(txtEdad.getText().trim());
+        float peso=Float.parseFloat(txtPeso.getText().trim());
+        float talla=Float.parseFloat(txtTalla.getText().trim());
+        fuzzy= new MalnutritionFuzzy(peso, talla, edad);
+        if(edad>12){
+            JOptionPane.showMessageDialog(this, "La edad debe ser menor de 12 años");
+            return;
+        }
+        String tipoDesnutricion =fuzzy.rulers();
+        if(tipoDesnutricion.equals("NORMAL"))lblTipoDesnutricion.setForeground(Color.GREEN);
+        else lblTipoDesnutricion.setForeground(Color.RED);
+        lblTipoDesnutricion.setText(tipoDesnutricion);
+    }//GEN-LAST:event_btnCargarMouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        DaoPaciente daoPaciente = daoManager.getDaoPaciente();
+        Paciente paciente= new Paciente();
+        paciente.setNombre(txtNombre.getText().trim());
+        paciente.setApellido(txtApellido.getText().trim());
+        paciente.setDomicilio(txtDomicilio.getText().trim());
+        paciente.setEdad(Integer.parseInt(txtEdad.getText().trim()));
+        paciente.setLugarProcedencia(txtLugarProcedencia.getText().trim());
+        paciente.setGenero(rbFemenino.isSelected()?"F":"M");
+        paciente.setIdPaciente(daoPaciente.insertPaciente(paciente));
+        if(paciente.getIdPaciente()==0)return;
+        
+        DaoDatosNutricional daoNutricional = daoManager.getDaoDatosNutricional();
+        DatosNutricional datosNutricional = new DatosNutricional();
+        datosNutricional.setPaciente_idPaciente(paciente.getIdPaciente());
+        datosNutricional.setPerimetroBranquial(Float.parseFloat(txtPeBranquial.getText().trim()));
+        datosNutricional.setPerimetroCefalico(Float.parseFloat(txtPeCefalico.getText().trim()));
+        datosNutricional.setPerimetroToracico(Float.parseFloat(txtPeToractico.getText().trim()));
+        datosNutricional.setPeso(Float.parseFloat(txtPeso.getText().trim()));
+        datosNutricional.setTalla(Float.parseFloat(txtTalla.getText().trim()));
+        try {
+            daoNutricional.insert(datosNutricional);
+        } catch (DaoException ex) {
+            Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        DaoRutaNutricional daoRutaNutricional= daoManager.getDaoRutaNutricional();
+        RutaAlimenticia rutaAlimenticia = new RutaAlimenticia();
+        rutaAlimenticia.setDesayuno(txtPregunta1.getText());
+        rutaAlimenticia.setRefrigerio(txtPregunta2.getText());
+        rutaAlimenticia.setPaciente_idPaciente(paciente.getIdPaciente());
+        try {
+            daoRutaNutricional.insert(rutaAlimenticia);
+        } catch (DaoException ex) {
+            Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        DaoDiagnostico daoDiagnostico = daoManager.getDaoDiagnostico();
+        Diagnostico diagnostico= new Diagnostico();
+        diagnostico.setPaciente_idPaciente(paciente.getIdPaciente());
+        diagnostico.setTipoDesnutricion(lblTipoDesnutricion.getText());
+        try {
+            daoDiagnostico.insert(diagnostico);
+        } catch (DaoException ex) {
+            Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
     public static void main(String args[]) {
        
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -841,4 +933,12 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JTextField txtPregunta2;
     private javax.swing.JTextField txtTalla;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarDatos() {
+        boolean band=true;
+        if(txtPeso.getText().trim().length()==0)band=false;
+        if(txtTalla.getText().trim().length()==0)band=false;
+        if(txtEdad.getText().trim().length()==0)band=false;
+        return band;
+    }
 }

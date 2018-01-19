@@ -80,7 +80,6 @@ public class FrmLogin extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtUser.setForeground(new java.awt.Color(51, 51, 51));
-        txtUser.setText("nombre usuario");
         txtUser.setBorder(null);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
