@@ -209,7 +209,8 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_lblTopBarMouseDragged
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-        new FrmMain().setVisible(true);
+        //new FrmMain().setVisible(true);
+        new FrmSearch().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLogInActionPerformed
 
