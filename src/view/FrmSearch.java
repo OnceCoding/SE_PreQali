@@ -1,19 +1,30 @@
 
 package view;
 
+import DAO.DaoManager;
+import DAO.DaoPaciente;
+import DaoMysql.DaoManagerMysql;
+import Model.Paciente;
+import java.awt.Color;
+import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmSearch extends javax.swing.JFrame {
 
     private int x, y;
-    
+    DaoManager manager;
+    DaoPaciente daoPaciente;
+    ArrayList<Paciente> listaPacientes;
     public FrmSearch() {
         initComponents();
+        manager = DaoManagerMysql.getDaoManager();
         setLocationRelativeTo(this);
     }
 
@@ -27,7 +38,7 @@ public class FrmSearch extends javax.swing.JFrame {
         lblTopBar = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stylusTable1 = new stylustable.StylusTable();
+        tablePacientes = new javax.swing.JTable();
         paneHeader = new javax.swing.JPanel();
         btnLogIn1 = new javax.swing.JButton();
         txtNombreEstudiante = new javax.swing.JTextField();
@@ -36,7 +47,6 @@ public class FrmSearch extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(479, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnMinimize.setBackground(new java.awt.Color(90, 170, 250));
@@ -87,46 +97,38 @@ public class FrmSearch extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
-        stylusTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablePacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Nombre", "Apellido"
+                "Paciente"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(stylusTable1);
-        if (stylusTable1.getColumnModel().getColumnCount() > 0) {
-            stylusTable1.getColumnModel().getColumn(0).setResizable(false);
-            stylusTable1.getColumnModel().getColumn(1).setResizable(false);
+        jScrollPane1.setViewportView(tablePacientes);
+        if (tablePacientes.getColumnModel().getColumnCount() > 0) {
+            tablePacientes.getColumnModel().getColumn(0).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, 330));
@@ -148,9 +150,26 @@ public class FrmSearch extends javax.swing.JFrame {
         });
 
         txtNombreEstudiante.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNombreEstudiante.setForeground(new java.awt.Color(204, 204, 204));
         txtNombreEstudiante.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNombreEstudiante.setText("jTextField1");
+        txtNombreEstudiante.setText("Nombre del paciente");
         txtNombreEstudiante.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(90, 170, 250)));
+        txtNombreEstudiante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNombreEstudianteMouseClicked(evt);
+            }
+        });
+        txtNombreEstudiante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreEstudianteKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreEstudianteKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreEstudianteKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -208,7 +227,8 @@ public class FrmSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinimizeActionPerformed
 
     private void btnLogIn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogIn1ActionPerformed
-        // TODO add your handling code here:
+        if(txtNombreEstudiante.getText().trim().length() ==0)return;
+        this.buscarPaciente(txtNombreEstudiante.getText().trim());
     }//GEN-LAST:event_btnLogIn1ActionPerformed
 
     private void lblTopBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTopBarMousePressed
@@ -219,6 +239,29 @@ public class FrmSearch extends javax.swing.JFrame {
     private void lblTopBarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTopBarMouseDragged
         setLocation(getLocation().x + evt.getX() - x, getLocation().y + evt.getY() - y);
     }//GEN-LAST:event_lblTopBarMouseDragged
+
+    private void txtNombreEstudianteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreEstudianteKeyReleased
+        
+    }//GEN-LAST:event_txtNombreEstudianteKeyReleased
+
+    private void txtNombreEstudianteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNombreEstudianteMouseClicked
+        if(txtNombreEstudiante.getText().equals("Nombre del paciente")){
+            txtNombreEstudiante.setText("");
+            txtNombreEstudiante.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtNombreEstudianteMouseClicked
+
+    private void txtNombreEstudianteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreEstudianteKeyPressed
+        if(evt.getKeyCode()==Event.ENTER){
+            this.buscarPaciente(txtNombreEstudiante.getText().trim());
+        }
+    }//GEN-LAST:event_txtNombreEstudianteKeyPressed
+
+    private void txtNombreEstudianteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreEstudianteKeyTyped
+        if(txtNombreEstudiante.getText().trim().length()>0){
+            this.buscarPaciente(txtNombreEstudiante.getText().trim());
+        }
+    }//GEN-LAST:event_txtNombreEstudianteKeyTyped
 
     public static void main(String args[]) {
        
@@ -240,8 +283,24 @@ public class FrmSearch extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTopBar;
     private javax.swing.JPanel paneHeader;
-    private stylustable.StylusTable stylusTable1;
+    private javax.swing.JTable tablePacientes;
     private javax.swing.JTextField txtNombreEstudiante;
     // End of variables declaration//GEN-END:variables
-
+   private void buscarPaciente(String nombreApellido){
+       daoPaciente = manager.getDaoPaciente();
+       listaPacientes = daoPaciente.buscarPaciente(txtNombreEstudiante.getText().trim());
+       this.mostrarLista();
+   }
+   private void mostrarLista(){
+       DefaultTableModel dtm= (DefaultTableModel) tablePacientes.getModel();
+       int tam= tablePacientes.getRowCount();
+       for(int i =0 ;i< tam ; i++){
+           dtm.removeRow(0);
+       }
+       
+       for(int i=0 ; i<listaPacientes.size();i++){
+           String nomApe= listaPacientes.get(i).getNombre() + " "+ listaPacientes.get(i).getApellido();
+           dtm.addRow(new Object[]{nomApe});
+       }
+   }
 }
