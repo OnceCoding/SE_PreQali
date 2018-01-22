@@ -37,8 +37,8 @@ public class FrmSearch extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         lblTopBar = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablePacientes = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablePacientes = new stylustable.StylusTable();
         paneHeader = new javax.swing.JPanel();
         btnLogIn1 = new javax.swing.JButton();
         txtNombreEstudiante = new javax.swing.JTextField();
@@ -60,7 +60,7 @@ public class FrmSearch extends javax.swing.JFrame {
                 btnMinimizeActionPerformed(evt);
             }
         });
-        getContentPane().add(btnMinimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(416, 2, 30, 20));
+        getContentPane().add(btnMinimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(416, 2, 30, 18));
 
         btnClose.setBackground(new java.awt.Color(90, 170, 250));
         btnClose.setForeground(new java.awt.Color(255, 255, 255));
@@ -99,7 +99,10 @@ public class FrmSearch extends javax.swing.JFrame {
 
         tablePacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
                 "Paciente"
@@ -113,7 +116,7 @@ public class FrmSearch extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablePacientes);
+        jScrollPane2.setViewportView(tablePacientes);
         if (tablePacientes.getColumnModel().getColumnCount() > 0) {
             tablePacientes.getColumnModel().getColumn(0).setResizable(false);
         }
@@ -122,16 +125,20 @@ public class FrmSearch extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, 330));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 480, 330));
 
         paneHeader.setBackground(new java.awt.Color(90, 170, 250));
         paneHeader.setPreferredSize(new java.awt.Dimension(10, 0));
@@ -279,11 +286,11 @@ public class FrmSearch extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTopBar;
     private javax.swing.JPanel paneHeader;
-    private javax.swing.JTable tablePacientes;
+    private stylustable.StylusTable tablePacientes;
     private javax.swing.JTextField txtNombreEstudiante;
     // End of variables declaration//GEN-END:variables
    private void buscarPaciente(String nombreApellido){
